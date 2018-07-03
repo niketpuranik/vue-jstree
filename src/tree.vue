@@ -251,30 +251,34 @@
                 this.$emit("item-drag-end", oriNode, oriItem, e)
             },
             onItemDrop(e, oriNode, oriItem) {
-                if (!this.draggable || !!oriItem.dropDisabled)
-                    return false
-                this.$emit("item-drop-before", oriNode, oriItem, !this.draggedItem ? undefined : this.draggedItem.item, e)
-                if (!this.draggedElm || this.draggedElm === e.target || this.draggedElm.contains(e.target)) {
-                    return
-                }
-                if (this.draggedItem) {
-                    if (this.draggedItem.parentItem === oriItem[this.childrenFieldName]
-                            || this.draggedItem.item === oriItem
-                            || (oriItem[this.childrenFieldName] && oriItem[this.childrenFieldName].findIndex(t => t.id === this.draggedItem.item.id) !== -1)) {
-                        return;
-                    }
-                    if (!!oriItem[this.childrenFieldName]) {
-                        oriItem[this.childrenFieldName].push(this.draggedItem.item)
-                    } else {
-                        oriItem[this.childrenFieldName] = [this.draggedItem.item]
-                    }
-                    oriItem.opened = true
-                    var draggedItem = this.draggedItem
-                    this.$nextTick(() => {
-                        draggedItem.parentItem.splice(draggedItem.index, 1)
-                    })
-                    this.$emit("item-drop", oriNode, oriItem, draggedItem.item, e)
-                }
+
+              console.log("disabled => item-drop-before");
+
+
+              if (!this.draggable || !!oriItem.dropDisabled)
+                  return false
+              // this.$emit("item-drop-before", oriNode, oriItem, !this.draggedItem ? undefined : this.draggedItem.item, e)
+              // if (!this.draggedElm || this.draggedElm === e.target || this.draggedElm.contains(e.target)) {
+              //     return
+              // }
+              if (this.draggedItem) {
+                // if (this.draggedItem.parentItem === oriItem[this.childrenFieldName]
+                //   || this.draggedItem.item === oriItem
+                //   || (oriItem[this.childrenFieldName] && oriItem[this.childrenFieldName].findIndex(t => t.id === this.draggedItem.item.id) !== -1)) {
+                //       return;
+                // }
+                // if (!!oriItem[this.childrenFieldName]) {
+                //   oriItem[this.childrenFieldName].push(this.draggedItem.item)
+                // } else {
+                //   oriItem[this.childrenFieldName] = [this.draggedItem.item]
+                // }
+                // oriItem.opened = true
+                // var draggedItem = this.draggedItem
+                // this.$nextTick(() => {
+                //     draggedItem.parentItem.splice(draggedItem.index, 1)
+                // })
+                this.$emit("item-drop", oriNode, oriItem, draggedItem.item, this.childrenFieldName, e)
+              }
             }
         },
         created() {
